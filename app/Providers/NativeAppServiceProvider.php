@@ -13,7 +13,8 @@ class NativeAppServiceProvider implements ProvidesPhpIni
      */
     public function boot(): void
     {
-        Window::open('home');
+        Window::open('home')
+            ->title('Translator');
     }
 
     /**
