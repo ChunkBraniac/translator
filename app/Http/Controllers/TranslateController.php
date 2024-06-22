@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Native\Laravel\Facades\Notification;
+use Native\Laravel\Facades\Window;
 
 class TranslateController extends Controller
 {
@@ -18,6 +20,10 @@ class TranslateController extends Controller
         $sourceLanguage = $request->input('sourceLanguage');
         $targetLanguage = $request->input('targetLanguage');
         $query = urlencode($request->input('inputText'));
+
+        Notification::title('Translator')
+            ->message('Translator is now translating your text')
+            ->show();
 
         // dd($sourceLanguage.' '.$targetLanguage);
         $curl = curl_init();
@@ -46,13 +52,17 @@ class TranslateController extends Controller
         curl_close($curl);
 
         if ($err) {
-            echo 'cURL Error #:'.$err;
+            Notification::title('Translator')
+                ->message('Text could not be translated.')
+                ->show();
+
+            return redirect()->route('home');
+        } else {
+            $data = json_decode($response, true);
+
+            $translated_text = $data['translation'];
+
+            return view('home', compact('translated_text'));
         }
-
-        $data = json_decode($response, true);
-
-        $translated_text = $data['translation'];
-
-        return view('home', compact('translated_text'));
     }
 }
