@@ -23,7 +23,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="inputText">Enter Text</label>
-                        <textarea class="form-control" id="inputText" rows="6" placeholder="Type your text here..." name="inputText"></textarea>
+                        <textarea class="form-control" id="inputText" rows="6" placeholder="Type your text here..." name="inputText" @required(true)></textarea>
                     </div>
                 </div>
                 <div class="col-md-6">
